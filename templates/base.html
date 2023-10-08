@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Intérprete Funx</title>
+</head>
+<body>
+    <style>
+
+
+      .historial {
+        color: #05F
+      }
+      .funcdec {
+        color: #0FA
+      }
+
+      .error {
+        color: #f00;
+        font-weight: bold;
+      }
+
+      body {
+        background-color: #222;
+        color: #fff;
+      }
+
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px 0;
+      }
+      label {
+        margin-bottom: 10px;
+      }
+      input[type="text"] {
+        width: 300px;
+        height: 300px;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #333;
+        color: #fff;
+      }
+      input[type="submit"] {
+        width: 150px;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #444;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .result {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px 0;
+      }
+      .result p {
+        margin: 10px 0;
+      }
+      .result p:first-of-type {
+        font-weight: bold;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+      }
+      li {
+        margin: 10px 0;
+      }
+
+    </style>
+
+    {% if error %}
+      <h2 class="error">Error:</h2>
+      <p class="error">{{ error }}</p>
+    {% endif %}
+    <h1>Intérprete Funx</h1>
+    <form action="/evaluate" method="post">
+        <label for="expression">Expresión:</label>
+        <br>
+          <input type="text" id="expression" name="expression">
+        <br>
+        <input type="submit" value="Evaluar">
+    </form>
+    {% if result %}
+    <h2>Resultado:</h2>
+    <p>Input: {{ input }}</p>
+    <p>Output: {{ result }}</p>
+    {% endif %}
+    <h2 class = "funcdec">Funciones declaradas:</h2>
+    <ul>
+      {% for function, func_data in tfs.items() %}
+        <li>{{ function }} {{ func_data.params|join(" ") }}</li>
+      {% endfor %}
+    </ul>
+    <div>
+      <h2 class = "historial">Historial</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for input, output in history %}
+            <tr>
+              <td>{{ input }}</td>
+              <td>{{ output }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</body>
+</html>
